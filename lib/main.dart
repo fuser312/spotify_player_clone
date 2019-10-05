@@ -6,21 +6,25 @@ void main() {
   runApp(MaterialApp(
       home: Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: Text(
             'Best of Hindi',
+            style: TextStyle(
+              fontSize: 24
+            ),
           ),
         ),
-        body: SpotifyPlayer(),
+        body: spotifyPlayer(),
       )
   ));
 }
 
-class SpotifyPlayer extends StatefulWidget {
+class spotifyPlayer extends StatefulWidget {
   @override
-  _SpotifyPlayerState createState() => _SpotifyPlayerState();
+  _spotifyPlayerState createState() => _spotifyPlayerState();
 }
 
-class _SpotifyPlayerState extends State<SpotifyPlayer> {
+class _spotifyPlayerState extends State<spotifyPlayer> {
 
   Song dummySong = Song(
       'Duniyaa',
