@@ -31,6 +31,7 @@ class _spotifyPlayerState extends State<spotifyPlayer> {
 
   AudioPlayer audioPlayer = new AudioPlayer();
   IconData playPauseButton = Icons.play_circle_filled;
+  int i = 0;
   void playPause(){
       if(playPauseButton == Icons.play_circle_filled){
         playPauseButton = Icons.pause;
@@ -56,25 +57,25 @@ class _spotifyPlayerState extends State<spotifyPlayer> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.fromLTRB(8, 48, 8, 8),
+      margin: EdgeInsets.fromLTRB(8, 32, 8, 8),
       child:Padding(
         padding: const EdgeInsets.fromLTRB(12, 4, 8, 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
               Image.network(
-                    dummySong.imageUrl
+                    allSongs[i].imageUrl
                 ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(0, 64, 8, 8),
-                child: Text(dummySong.name,
+                padding: const EdgeInsets.fromLTRB(0, 48, 8, 8),
+                child: Text(allSongs[i].name,
                   style: TextStyle(
                     fontSize: 24,
                     color: Colors.white,
                   ),
                 ),
               ),
-              Text(dummySong.artistName,
+              Text(allSongs[i].artistName,
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.grey,
@@ -90,16 +91,48 @@ class _spotifyPlayerState extends State<spotifyPlayer> {
                       icon: Icon(Icons.thumb_up, color: Colors.white,),
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          if (i>0){
+                            audioPlayer.pause();
+                            i--;
+                            audioPlayer.play(allSongs[i].playUrl);
+                          }
+                          else {
+                            setState(() {
+                              audioPlayer.pause();
+                              i = allSongs.length-1;
+                              audioPlayer.play(allSongs[i].playUrl);
+                            });
+                          }
+
+                        });
+                      },
                       icon: Icon(Icons.skip_previous, color: Colors.white,),
                     ),
 
                     IconButton(
+                      iconSize: 56,
                       onPressed: playPause,
-                      icon: Icon(playPauseButton, color: Colors.white, size: 40,),
+                      icon: Icon(playPauseButton, color: Colors.white,),
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          if (i < allSongs.length){
+                            audioPlayer.pause();
+                            i++;
+                            audioPlayer.play(allSongs[i].playUrl);
+                            print(allSongs[i].playUrl);
+                          }
+                          else{
+                            setState(() {
+                              audioPlayer.pause();
+                              audioPlayer.play(allSongs[0].playUrl);
+                            });
+                          }
+                        });
+                      },
                       icon: Icon(Icons.skip_next, color: Colors.white,),
                     ),
                     IconButton(
